@@ -30,6 +30,7 @@ multi_line_output= 3
 line_length = 100
 include_trailing_comma = true
 force_grid_wrap = 0
+known_third_party = ["torch"]
 
 
 [tool.black]
