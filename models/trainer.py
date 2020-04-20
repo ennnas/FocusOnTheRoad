@@ -7,8 +7,6 @@ from torch.utils.data import DataLoader
 
 from models.losses import multi_class_log_loss as criterion
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
 
 def train_model(
     model: nn.Module,
@@ -16,6 +14,7 @@ def train_model(
     num_epochs: int,
     trainloader: DataLoader,
     valloader: Optional[DataLoader] = None,
+    device: torch.device = torch.device("cpu"),
 ) -> Tuple[float, float]:
     """ Helper function that trains a model
 
@@ -24,12 +23,13 @@ def train_model(
     :param num_epochs: The number of epochs to train for
     :param trainloader: The DataLoader containing the training data
     :param valloader: The DataLoader containing the validation data, if None skip validation
-
+    :param device: The device to use for training
+    
     :return: The training and validation losses, if case of no validation the loss is 0
     """
     model.to(device)
 
-    verbosity_level = 2
+    verbosity_level = 100
     train_loss = 0.0
     val_loss = 0.0
 
@@ -45,7 +45,7 @@ def train_model(
             optimizer.zero_grad()
 
             # forward + backward + optimize
-            outputs = F.softmax(model(inputs))
+            outputs = F.softmax(model(inputs), dim=1)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
@@ -62,7 +62,7 @@ def train_model(
                 for i, data in enumerate(valloader, 0):
                     inputs, labels = data[0].to(device), data[1].to(device)
 
-                    outputs = F.softmax(model(inputs))
+                    outputs = F.softmax(model(inputs), dim=1)
                     loss = criterion(outputs, labels)
                     running_loss += loss.item()
                 val_loss = running_loss / i
@@ -72,10 +72,13 @@ def train_model(
     return train_loss, val_loss
 
 
-def evaluate_model(model: nn.Module, dataloader: DataLoader) -> torch.Tensor:
+def evaluate_model(
+    model: nn.Module, dataloader: DataLoader, device: torch.device = torch.device("cpu")
+) -> torch.Tensor:
     """ Helper function that evaluate model against a dataset
     :param model: The model to evaluate
     :param dataloader: The DataLoader containing the evaluation data
+    :param device: The device to use for evaluation
 
     :return: The multi-class logloss score
     """
@@ -85,7 +88,7 @@ def evaluate_model(model: nn.Module, dataloader: DataLoader) -> torch.Tensor:
         for i, data in enumerate(dataloader, 0):
             inputs = data[0].to(device)
 
-            outputs = F.softmax(model(inputs))
+            outputs = F.softmax(model(inputs), dim=1)
             y_prob = torch.cat([y_prob, outputs.cpu()], 0)
             y_true += list(data[1].numpy())
 

@@ -25,6 +25,8 @@ CLASSES = {
     9: "talking to passenger",
 }
 
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 
 def get_dataframes(train_size: int = 600, val_size: int = 100) -> Sequence[pd.DataFrame]:
     """ Read the data and split images into train, validation and test sets
@@ -62,6 +64,7 @@ def train(
     :param valloader: DataLoader used for validation
     :param optimize_namer: The optimizer used to optimize the model
     :param lr: The learning rate of the optimizer
+
     """
     # define the optimizer
     if optimize_namer == "sgd":
@@ -76,6 +79,7 @@ def train(
         num_epochs=args.num_epochs,
         trainloader=trainloader,
         valloader=valloader,
+        device=device,
     )
     print(f"Final loss: train {round(train_loss, 3)}, validation {round(val_loss, 3)}")
 
@@ -93,12 +97,12 @@ def main(args: argparse.Namespace) -> None:
     # init the model
     print("Initializing the VGG19 model...")
     model = VGG19(num_classes=10, pretrained=True, lock_features=False)
-
+    model.to(device)
     # train the model
     train(model, trainloader, valloader, args.optimizer, args.lr)
 
     # evaluate the model on the remaining samples
-    test_loss = evaluate_model(model, testloader)
+    test_loss = evaluate_model(model, testloader, device)
     print(f"VGG19 scored {test_loss} on a dataset of size {test_df.shape[0]}")
 
 
