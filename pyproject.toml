@@ -3,6 +3,7 @@ name = "focusOnTheRoad"
 version = "0.1.0"
 description = "'Focus on the road' a Machine Learning model that identifies distracted drivers"
 authors = ["Ennio <nascaennio@gmail.com>"]
+packages = [{ include = "detectors" }]
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -18,12 +19,18 @@ torchvision = "^0.5.0"
 sagemaker-containers = "^2.8.6"
 mxnet = "^1.6.0"
 seaborn = "^0.10.0"
+matplotlib = "^3.2.1"
+opencv-python = "^4.2.0"
+scikit-image = "^0.16.2"
 
 [tool.poetry.dev-dependencies]
 black = "==19.3b0"
 mypy = "~=0.730"
 isort = {extras = ["pyproject"], version = "^4.3.21"}
 seed-isort-config = "^2.1.1"
+
+[tool.poetry.scripts]
+demo = "detectors.BodyDetector:main"
 
 [tool.isort]
 multi_line_output= 3
