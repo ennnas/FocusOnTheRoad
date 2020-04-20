@@ -55,7 +55,7 @@ def train_model(
                 print("[%d, %5d] loss: %.3f" % (epoch + 1, i + 1, running_loss / i))
 
         train_loss = running_loss / i
-        print(f"[{epoch+1}/{num_epochs+1}] train loss: {train_loss:.3f}")
+        print(f"[{epoch+1}/{num_epochs}] train loss: {train_loss:.3f}")
         if valloader:
             with torch.no_grad():
                 running_loss = 0.0
@@ -66,7 +66,7 @@ def train_model(
                     loss = criterion(outputs, labels)
                     running_loss += loss.item()
                 val_loss = running_loss / i
-                print(f"[{epoch + 1}/{num_epochs + 1}] val loss: {train_loss:.3f}")
+                print(f"[{epoch + 1}/{num_epochs}] val loss: {train_loss:.3f}")
 
     print("Finished Training")
     return train_loss, val_loss
