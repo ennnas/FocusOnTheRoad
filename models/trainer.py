@@ -66,7 +66,7 @@ def train_model(
                     loss = criterion(outputs, labels)
                     running_loss += loss.item()
                 val_loss = running_loss / i
-                print(f"[{epoch + 1}/{num_epochs}] val loss: {train_loss:.3f}")
+                print(f"[{epoch + 1}/{num_epochs}] val loss: {val_loss:.3f}")
 
     print("Finished Training")
     return train_loss, val_loss
