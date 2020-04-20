@@ -27,13 +27,11 @@ def train_model(
     
     :return: The training and validation losses, if case of no validation the loss is 0
     """
-    model.to(device)
-
     verbosity_level = 100
     train_loss = 0.0
     val_loss = 0.0
 
-    print(f"Training the model for {num_epochs} epochs...")
+    print(f"Training the model for {num_epochs} epochs using {device}...")
     for epoch in range(num_epochs):  # loop over the dataset multiple times
 
         running_loss = 0.0
@@ -84,6 +82,7 @@ def evaluate_model(
     """
     y_prob = torch.Tensor()
     y_true = []
+    print(f"Evaluating model using {device}")
     with torch.no_grad():
         for i, data in enumerate(dataloader, 0):
             inputs = data[0].to(device)

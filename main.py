@@ -26,7 +26,7 @@ CLASSES = {
     9: "talking to passenger",
 }
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 def get_dataframes(train_size: int = 600, val_size: int = 100) -> Sequence[pd.DataFrame]:
@@ -80,7 +80,7 @@ def train(
         num_epochs=args.num_epochs,
         trainloader=trainloader,
         valloader=valloader,
-        device=device,
+        device=DEVICE,
     )
     print(f"Final loss: train {round(train_loss, 3)}, validation {round(val_loss, 3)}")
 
@@ -96,18 +96,18 @@ def main(args: argparse.Namespace) -> None:
     testloader = get_dataloader(test_df)
 
     # init the model
-    print("Initializing the VGG19 model...")
+    print(f"Initializing the VGG19 model on {DEVICE}")
     model = VGG19(num_classes=10, pretrained=True, lock_features=False)
-    model.to(device)
+    model.to(DEVICE)
     # train the model
     train(model, trainloader, valloader, args.optimizer, args.lr)
 
     # evaluate the model on the remaining samples
-    test_loss = evaluate_model(model, testloader, device)
+    test_loss = evaluate_model(model, testloader, DEVICE)
     print(f"VGG19 scored {test_loss} on a dataset of size {test_df.shape[0]}")
 
     if args.submission:
-        prepare_submission(model, device)
+        prepare_submission(model, DEVICE)
 
 
 if __name__ == "__main__":

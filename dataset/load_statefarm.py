@@ -40,7 +40,7 @@ def get_dataloader(
     )
     # for test dataframe we dont want to rotate the images
     if not rotate:
-        transformations.pop(2)
+        print(f"Removing transformation {transformations.transforms.pop(2)}")
 
     dataset = StateFarmDataset(df=df, transform=transformations)
 
