@@ -10,7 +10,6 @@ from tqdm import tqdm
 from dataset.load_statefarm import get_dataloader
 
 TEST_DIR = "./data/imgs/test"
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 def _get_submission_dataloader() -> DataLoader:
@@ -24,7 +23,7 @@ def _get_submission_dataloader() -> DataLoader:
 
 
 def _make_predictions(
-    model: torch.nn.Module, dataloader: DataLoader
+    model: torch.nn.Module, dataloader: DataLoader, device: torch.device
 ) -> Tuple[torch.Tensor, List[str]]:
     """ Get the predictions from the model """
     target_images = []
@@ -49,8 +48,8 @@ def _save_predictions(predictions: torch.Tensor, filenames: List[str]) -> None:
     prediction_df.to_csv("submission.csv", header=True, index=False)
 
 
-def prepare_submission(model: torch.nn.Module):
+def prepare_submission(model: torch.nn.Module, device: torch.device = torch.device("cpu")):
     """ Generate the csv submission file from the trained model"""
     dataloader = _get_submission_dataloader()
-    predictions, filenames = _make_predictions(model, dataloader)
+    predictions, filenames = _make_predictions(model, dataloader, device)
     _save_predictions(predictions, filenames)

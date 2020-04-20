@@ -7,6 +7,7 @@ from torch import optim
 from torch.utils.data import DataLoader
 
 from dataset.load_statefarm import get_dataloader
+from dataset.make_submission import prepare_submission
 from dataset.model_selection import train_test_split
 from models.baselines import VGG19
 from models.trainer import evaluate_model, train_model
@@ -105,6 +106,9 @@ def main(args: argparse.Namespace) -> None:
     test_loss = evaluate_model(model, testloader, device)
     print(f"VGG19 scored {test_loss} on a dataset of size {test_df.shape[0]}")
 
+    if args.submission:
+        prepare_submission(model, device)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a baseline model on the StateFarmDataset.")
@@ -135,6 +139,12 @@ if __name__ == "__main__":
         type=int,
         default=32,
         help="the number of images per class to use for validation",
+    )
+    parser.add_argument(
+        "--submission",
+        action="store_true",
+        default=False,
+        help="Use the fitted model to compute the submission.csv file",
     )
 
     args = parser.parse_args()
