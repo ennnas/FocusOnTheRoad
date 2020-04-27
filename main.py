@@ -6,7 +6,7 @@ import torch
 from torch import optim
 from torch.utils.data import DataLoader
 
-from dataset.load_statefarm import get_dataloader
+from dataset.load_statefarm import get_statefarm_dataloader
 from dataset.make_submission import prepare_submission
 from dataset.model_selection import train_test_split
 from models.baselines import VGG19
@@ -45,10 +45,14 @@ def get_dataframes(train_size: int = 600, val_size: int = 100) -> Sequence[pd.Da
 
     # extract the training and validation set and use the remaining for testing
     train_df, val_df = train_test_split(
-        df, train_size + val_size, val_size, group_ids=["classname"]
+        df, train_size + val_size, val_size, group_ids=["classname"], seed=7
     )
     test_df = pd.concat([df, train_df, val_df]).drop_duplicates(keep=False)
-    return train_df, val_df, test_df
+    return (
+        train_df.reset_index(drop=True),
+        val_df.reset_index(drop=True),
+        test_df.reset_index(drop=True),
+    )
 
 
 def train(
@@ -91,9 +95,9 @@ def main(args: argparse.Namespace) -> None:
     train_df, val_df, test_df = get_dataframes(args.train_size, args.val_size)
     print(f"Training set: {len(train_df)}\nValidation set: {len(val_df)}\nTest set: {len(test_df)}")
     # define the dataloaders
-    trainloader = get_dataloader(train_df)
-    valloader = get_dataloader(val_df)
-    testloader = get_dataloader(test_df)
+    trainloader = get_statefarm_dataloader(train_df)
+    valloader = get_statefarm_dataloader(val_df)
+    testloader = get_statefarm_dataloader(test_df)
 
     # init the model
     print(f"Initializing the VGG19 model on {DEVICE}")

@@ -1,11 +1,15 @@
 from typing import Optional, Tuple
 
+import pandas as pd
 import torch
 from torch import nn, optim
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
+from tqdm.autonotebook import tqdm
 
+from models.bodypose import BodyPose
 from models.losses import multi_class_log_loss as criterion
+from models.utils import get_body_points, get_peaks_from_image
 
 
 def train_model(
@@ -92,3 +96,31 @@ def evaluate_model(
             y_true += list(data[1].numpy())
 
     return criterion(y_prob, torch.Tensor(y_true).long()).detach()  # type: ignore
+
+
+def extract_keypoints(
+    model: BodyPose, dataloader: DataLoader, train=True, device: torch.device = torch.device("cpu")
+):
+    X = []
+    y = torch.Tensor()
+    filepaths = ()
+    with torch.no_grad():
+        for i, data in tqdm(enumerate(dataloader, 0)):
+            inputs, pad = data[0].to(device), data[2]
+
+            S, L = model(inputs)
+            batch_size = S.shape[0]
+            pad = [int(x[0]) for x in pad]
+            all_peaks = [
+                get_peaks_from_image(L[i], inputs.shape[2:], pad) for i in range(batch_size)
+            ]
+            body_points = [get_body_points(image_peaks) for image_peaks in all_peaks]
+            X = X + body_points
+            if train:
+                y = torch.cat([y, data[1].cpu().float()], 0)
+            filepaths += data[3]
+    df = pd.DataFrame([*X])
+    if train:
+        df["label"] = y.int().numpy()
+    df["filepath"] = filepaths
+    return df

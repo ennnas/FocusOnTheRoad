@@ -3,7 +3,7 @@ from collections import OrderedDict
 import torch
 import torch.nn as nn
 
-from models.utils import make_layers
+from models.utils import make_layers, set_parameter_requires_grad, transfer
 
 
 class BodyPose(nn.Module):
@@ -13,7 +13,7 @@ class BodyPose(nn.Module):
     https://arxiv.org/pdf/1611.08050.pdf
     """
 
-    def __init__(self):
+    def __init__(self, lock_features: bool = True):
         super().__init__()
         # This model uses a “two-branch multi-stage” CNN
         # Two branch means that the CNN produces two different outputs.
@@ -134,6 +134,13 @@ class BodyPose(nn.Module):
         self.model4_2 = blocks["block4_2"]
         self.model5_2 = blocks["block5_2"]
         self.model6_2 = blocks["block6_2"]
+
+        if lock_features:
+            set_parameter_requires_grad(self, False)
+
+        # load pretrained model
+        model_dict = transfer(self, torch.load("../checkpoints/body_pose_model.pth"))
+        self.load_state_dict(model_dict)
 
     def forward(self, x):
         """ The forward method of the model.

@@ -9,7 +9,7 @@ version = "1.4.3"
 [[package]]
 category = "main"
 description = "Disable App Nap on OS X 10.9"
-marker = "sys_platform == \"darwin\" or platform_system == \"Darwin\""
+marker = "sys_platform == \"darwin\" or platform_system == \"Darwin\" or python_version >= \"3.3\" and sys_platform == \"darwin\""
 name = "appnope"
 optional = false
 python-versions = "*"
@@ -132,6 +132,23 @@ version = "1.5.1"
 
 [[package]]
 category = "main"
+description = "Catboost Python Package"
+name = "catboost"
+optional = false
+python-versions = "*"
+version = "0.23"
+
+[package.dependencies]
+graphviz = "*"
+matplotlib = "*"
+numpy = ">=1.16.0"
+pandas = ">=0.24.0"
+plotly = "*"
+scipy = "*"
+six = "*"
+
+[[package]]
+category = "main"
 description = "Python package for providing Mozilla's CA Bundle."
 name = "certifi"
 optional = false
@@ -168,7 +185,7 @@ version = "7.1.1"
 [[package]]
 category = "main"
 description = "Cross-platform colored terminal text."
-marker = "sys_platform == \"win32\""
+marker = "python_version >= \"3.3\" and sys_platform == \"win32\" or sys_platform == \"win32\""
 name = "colorama"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
@@ -421,6 +438,27 @@ name = "ipython-genutils"
 optional = false
 python-versions = "*"
 version = "0.2.0"
+
+[[package]]
+category = "main"
+description = "IPython HTML widgets for Jupyter"
+name = "ipywidgets"
+optional = false
+python-versions = "*"
+version = "7.5.1"
+
+[package.dependencies]
+ipykernel = ">=4.5.1"
+nbformat = ">=4.2.0"
+traitlets = ">=4.3.1"
+widgetsnbextension = ">=3.5.0,<3.6.0"
+
+[package.dependencies.ipython]
+python = ">=3.3"
+version = ">=4.0.0"
+
+[package.extras]
+test = ["pytest (>=3.6.0)", "pytest-cov", "mock"]
 
 [[package]]
 category = "dev"
@@ -832,7 +870,7 @@ testing = ["docopt", "pytest (>=3.0.7)"]
 [[package]]
 category = "main"
 description = "Pexpect allows easy control of interactive console applications."
-marker = "sys_platform != \"win32\""
+marker = "python_version >= \"3.3\" and sys_platform != \"win32\" or sys_platform != \"win32\""
 name = "pexpect"
 optional = false
 python-versions = "*"
@@ -856,6 +894,18 @@ name = "pillow"
 optional = false
 python-versions = ">=3.5"
 version = "7.1.1"
+
+[[package]]
+category = "main"
+description = "An open-source, interactive graphing library for Python"
+name = "plotly"
+optional = false
+python-versions = "*"
+version = "4.6.0"
+
+[package.dependencies]
+retrying = ">=1.3.3"
+six = "*"
 
 [[package]]
 category = "main"
@@ -925,7 +975,7 @@ enum = ["enum34"]
 [[package]]
 category = "main"
 description = "Run a subprocess in a pseudo terminal"
-marker = "sys_platform != \"win32\" or os_name != \"nt\""
+marker = "python_version >= \"3.3\" and sys_platform != \"win32\" or sys_platform != \"win32\" or os_name != \"nt\" or python_version >= \"3.3\" and sys_platform != \"win32\" and (python_version >= \"3.3\" and sys_platform != \"win32\" or sys_platform != \"win32\")"
 name = "ptyprocess"
 optional = false
 python-versions = "*"
@@ -1387,6 +1437,17 @@ watchdog = ["watchdog"]
 
 [[package]]
 category = "main"
+description = "IPython HTML widgets for Jupyter"
+name = "widgetsnbextension"
+optional = false
+python-versions = "*"
+version = "3.5.1"
+
+[package.dependencies]
+notebook = ">=4.4.1"
+
+[[package]]
+category = "main"
 description = "Backport of pathlib-compatible object wrapper for zip files"
 name = "zipp"
 optional = false
@@ -1398,7 +1459,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "77573a8539b672bd126348b4b0a86cc9503a8a7556a89f62317d65e2be0d8fea"
+content-hash = "91dca88092e441d8a96fc1c96de35bc4bf6c7855f91d705341e2a2841ca038a7"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -1461,6 +1522,23 @@ botocore = [
 cached-property = [
     {file = "cached-property-1.5.1.tar.gz", hash = "sha256:9217a59f14a5682da7c4b8829deadbfc194ac22e9908ccf7c8820234e80a1504"},
     {file = "cached_property-1.5.1-py2.py3-none-any.whl", hash = "sha256:3a026f1a54135677e7da5ce819b0c690f156f37976f3e30c5430740725203d7f"},
+]
+catboost = [
+    {file = "catboost-0.23-cp27-none-macosx_10_6_intel.macosx_10_9_intel.macosx_10_9_x86_64.macosx_10_10_intel.macosx_10_10_x86_64.whl", hash = "sha256:bb0cf9efc4d7ca9f50362ccd9aadbc1d71648e56f8644b40484b69b813d6049d"},
+    {file = "catboost-0.23-cp27-none-manylinux1_x86_64.whl", hash = "sha256:fa8014beeea2ff95d7b75fabbb9a94dec2d3143c3ef4c4a4ecd783fe5fb6c006"},
+    {file = "catboost-0.23-cp27-none-win_amd64.whl", hash = "sha256:5da1a4228b5b4ee2dcd8dd57a0678640922663f3099244189743232cdc343a6b"},
+    {file = "catboost-0.23-cp35-none-macosx_10_6_intel.macosx_10_9_intel.macosx_10_9_x86_64.macosx_10_10_intel.macosx_10_10_x86_64.whl", hash = "sha256:c5ac066be13c3ce96a42b7f186999d1e901ab1b2e657455bdb4b8a84f3f12d88"},
+    {file = "catboost-0.23-cp35-none-manylinux1_x86_64.whl", hash = "sha256:c3a98dd3ef11c8a07773a381ccf88129dde793bc4f8219bb1d7ae26c0d95254f"},
+    {file = "catboost-0.23-cp35-none-win_amd64.whl", hash = "sha256:5495637375533388d45167cf72644082ded89e89ac33d91e195fac16691797dd"},
+    {file = "catboost-0.23-cp36-none-macosx_10_6_intel.macosx_10_9_intel.macosx_10_9_x86_64.macosx_10_10_intel.macosx_10_10_x86_64.whl", hash = "sha256:bbbd6990d54bd87d878b23d4f50e46a9380464f63840e75e235e1b656a9447b7"},
+    {file = "catboost-0.23-cp36-none-manylinux1_x86_64.whl", hash = "sha256:7d43f4fc735c108673c39f9f3951a31a09200864bf5eed2b5d8aa15971f8679b"},
+    {file = "catboost-0.23-cp36-none-win_amd64.whl", hash = "sha256:1b30cd1c783d66cb767fab2f3b2b986db18718b9fb35a65e7ca95e27a4618704"},
+    {file = "catboost-0.23-cp37-none-macosx_10_6_intel.macosx_10_9_intel.macosx_10_9_x86_64.macosx_10_10_intel.macosx_10_10_x86_64.whl", hash = "sha256:73f9a42e03fcb0dc971dbeaa5d2d0fd8cfc64c039ae0ca2465b070a665b49c16"},
+    {file = "catboost-0.23-cp37-none-manylinux1_x86_64.whl", hash = "sha256:5efd1c1c38490a0ea46b49e29a1528c65317662a982048b94b7dbbd7f679aabe"},
+    {file = "catboost-0.23-cp37-none-win_amd64.whl", hash = "sha256:fc6c0a969ee733b9453f1cdbb6c8386795b595cd79a3ec6689d8670f01dadae9"},
+    {file = "catboost-0.23-cp38-none-macosx_10_6_intel.macosx_10_9_intel.macosx_10_9_x86_64.macosx_10_10_intel.macosx_10_10_x86_64.whl", hash = "sha256:c0570b6def74198911a7b5ae9f74fd8c78ca76f59769a321e93ce32c9ab23d86"},
+    {file = "catboost-0.23-cp38-none-manylinux1_x86_64.whl", hash = "sha256:cfe637c62d3074787d3b6ad1e876a22ca355de850855e051b7a1924ff8883ec2"},
+    {file = "catboost-0.23-cp38-none-win_amd64.whl", hash = "sha256:28a8f78bdfa08310e14bbbe41376450b88061a2fc37a818b554b27840ee300bf"},
 ]
 certifi = [
     {file = "certifi-2020.4.5.1-py2.py3-none-any.whl", hash = "sha256:1d987a998c75633c40847cc966fcf5904906c920a7f17ef374f5aa4282abd304"},
@@ -1637,6 +1715,10 @@ ipython = [
 ipython-genutils = [
     {file = "ipython_genutils-0.2.0-py2.py3-none-any.whl", hash = "sha256:72dd37233799e619666c9f639a9da83c34013a73e8bbc79a7a6348d93c61fab8"},
     {file = "ipython_genutils-0.2.0.tar.gz", hash = "sha256:eb2e116e75ecef9d4d228fdc66af54269afa26ab4463042e33785b887c628ba8"},
+]
+ipywidgets = [
+    {file = "ipywidgets-7.5.1-py2.py3-none-any.whl", hash = "sha256:13ffeca438e0c0f91ae583dc22f50379b9d6b28390ac7be8b757140e9a771516"},
+    {file = "ipywidgets-7.5.1.tar.gz", hash = "sha256:e945f6e02854a74994c596d9db83444a1850c01648f1574adf144fbbabe05c97"},
 ]
 isort = [
     {file = "isort-4.3.21-py2.py3-none-any.whl", hash = "sha256:6e811fcb295968434526407adb8796944f1988c5b65e8139058f2014cbe100fd"},
@@ -1909,6 +1991,10 @@ pillow = [
     {file = "Pillow-7.1.1-pp373-pypy36_pp73-win32.whl", hash = "sha256:90cd441a1638ae176eab4d8b6b94ab4ec24b212ed4c3fbee2a6e74672481d4f8"},
     {file = "Pillow-7.1.1-py3.8-macosx-10.9-x86_64.egg", hash = "sha256:5eef904c82b5f8e4256e8d420c971357da2884c0b812ba4efa15a7ad2ec66247"},
     {file = "Pillow-7.1.1.tar.gz", hash = "sha256:0f89ddc77cf421b8cd34ae852309501458942bf370831b4a9b406156b599a14e"},
+]
+plotly = [
+    {file = "plotly-4.6.0-py2.py3-none-any.whl", hash = "sha256:ac0ca0854350bfcd833f3a8eb08aa50e184660502bb46fe907701f896ff349bd"},
+    {file = "plotly-4.6.0.tar.gz", hash = "sha256:61f34955f04201a1ebcd59feaafa7eae7c16ef9b3f439870be01fb85a949292f"},
 ]
 ply = [
     {file = "ply-3.11-py2.py3-none-any.whl", hash = "sha256:096f9b8350b65ebd2fd1346b12452efe5b9607f7482813ffca50c22722a807ce"},
@@ -2297,6 +2383,10 @@ webencodings = [
 werkzeug = [
     {file = "Werkzeug-1.0.1-py2.py3-none-any.whl", hash = "sha256:2de2a5db0baeae7b2d2664949077c2ac63fbd16d98da0ff71837f7d1dea3fd43"},
     {file = "Werkzeug-1.0.1.tar.gz", hash = "sha256:6c80b1e5ad3665290ea39320b91e1be1e0d5f60652b964a3070216de83d2e47c"},
+]
+widgetsnbextension = [
+    {file = "widgetsnbextension-3.5.1-py2.py3-none-any.whl", hash = "sha256:bd314f8ceb488571a5ffea6cc5b9fc6cba0adaf88a9d2386b93a489751938bcd"},
+    {file = "widgetsnbextension-3.5.1.tar.gz", hash = "sha256:079f87d87270bce047512400efd70238820751a11d2d8cb137a5a5bdbaf255c7"},
 ]
 zipp = [
     {file = "zipp-3.1.0-py3-none-any.whl", hash = "sha256:aa36550ff0c0b7ef7fa639055d797116ee891440eac1a56f378e2d3179e0320b"},

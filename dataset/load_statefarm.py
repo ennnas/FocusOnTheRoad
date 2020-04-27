@@ -4,13 +4,13 @@ import pandas as pd
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from dataset.dataset import StateFarmDataset
+from dataset.dataset import OpenPoseDataset, StateFarmDataset
 
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
 
 
-def get_dataloader(
+def get_statefarm_dataloader(
     df: pd.DataFrame, batch_size: int = 32, normalize: Optional[Tuple] = None, rotate: bool = True
 ) -> DataLoader:
     """ Helper function that build a DataLoader from a pandas DataFrame
@@ -38,10 +38,25 @@ def get_dataloader(
             normalization,
         ]
     )
+
     # for test dataframe we dont want to rotate the images
     if not rotate:
         print(f"Removing transformation {transformations.transforms.pop(2)}")
 
     dataset = StateFarmDataset(df=df, transform=transformations)
+
+    return DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+
+
+def get_openpose_dataloader(df: pd.DataFrame, batch_size: int = 32) -> DataLoader:
+    """ Helper function that build a DataLoader from a pandas DataFrame
+
+    :param df: the pandas DataFrame containing the columns `filepath` and `label`
+    :param batch_size: the batch size of the DataLoader
+
+    :return: the DataLoader built from the dataframe which returns (image, label) pairs
+    """
+
+    dataset = OpenPoseDataset(df=df)
 
     return DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=4)
