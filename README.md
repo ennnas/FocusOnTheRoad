@@ -17,7 +17,7 @@ on top of two weak learners, namely a CNN and a Gradient Boosting classifier tha
 The HPE implementation uses [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) while the 
 Gradient Boosting classifier is based on [CatBoost](https://catboost.ai/).
 
-The complete pipeline is available in the following jupyter notebook [notebooks/FocusOnTheRoad - Final](notebooks/FocusOnTheRoad - OpenPose.ipynb) 
+The complete pipeline is available in the following jupyter notebook [notebooks/FocusOnTheRoad - Ensemble](notebooks/FocusOnTheRoad - Ensemble.ipynb) 
 
 To read more about this project have a look at:
 - [Project proposal](docs/proposal.pdf)
@@ -48,7 +48,7 @@ Download the dataset from the [Kaggle competition](https://www.kaggle.com/c/stat
 
 Download the pretrained weights for the OpenPose model from [here](https://www.dropbox.com/sh/7xbup2qsn7vvjxo/AABaYNMvvNVFRWqyDXl7KQUxa/body_pose_model.pth)
 
-Follow the jupyter notebook [notebooks/FocusOnTheRoad - Final](notebooks/FocusOnTheRoad - OpenPose.ipynb) to execute the complete pipeline
+Follow the jupyter notebook [notebooks/FocusOnTheRoad - Ensemble](notebooks/FocusOnTheRoad - Ensemble.ipynb) to execute the complete pipeline
 
 ## Baseline example
 
