@@ -7,7 +7,7 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from dataset.load_statefarm import get_dataloader
+from dataset.load_statefarm import get_statefarm_dataloader
 
 TEST_DIR = "./data/imgs/test"
 
@@ -20,7 +20,7 @@ def _get_submission_dataloader() -> DataLoader:
         [(os.path.join(TEST_DIR, file), file) for file in files], columns=["filepath", "label"]
     )
     print(f"Loaded {len(sub_df)} submission files")
-    return get_dataloader(sub_df, rotate=False)
+    return get_statefarm_dataloader(sub_df, rotate=False)
 
 
 def _make_predictions(

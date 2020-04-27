@@ -12,16 +12,16 @@ The goal of this project is to train a deep learning model <img src="https://ren
 that can identify the action that a person is carrying out while driving. The problem is formulated 
 as a multi-label classification task using the dataset [State Farm Distracted Driver Detection](https://www.kaggle.com/c/state-farm-distracted-driver-detection/data)
 
-In order to obtain the aforementioned model we split this complex task into two smaller and simpler 
-subproblems, namely feature extraction and classification, the former is done via a Pytorch 
-implementation of [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) while the 
-latter via [XGBoost](https://xgboost.readthedocs.io/en/latest/) as shown in the image below.
+In order to obtain the aforementioned model we opt for an ensemble approach, building a classifier 
+on top of two weak learners, namely a CNN and a Gradient Boosting classifier that relies solely on Human Pose estimation features. 
+The HPE implementation uses [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) while the 
+Gradient Boosting classifier is based on [CatBoost](https://catboost.ai/)
 
-![](figures/workflow.png)
+The complete pipeline is available in the following jupyter notebook [notebooks/FocusOnTheRoad - Final](notebooks/FocusOnTheRoad - OpenPose.ipynb) 
 
 To read more about this project have a look at:
 - [Project proposal](docs/proposal.pdf)
-- [Report]() #TODO
+- [Report](docs/report.pdf)
 
 ## Development setup
 
@@ -44,29 +44,35 @@ First, to install all the required dependencies run
 poetry install
 ```
 
-You now have access to these entry points (executables) in your virtual environment:
+## Baseline example
 
-* `demo`: description of what it does 
+To train a CNN baseline use the `baseline.py` script which accepts the following arguments
 
-All these entry points accept multiple options. To obtain documentation for any one of them, run it with the `-h` flag.
-Example:
+```shell script
+$python baseline.py -h
+usage: baseline.py [-h] [--num-epochs NUM_EPOCHS] [--batch-size BATCH_SIZE]
+                   [--optimizer {sgd,adagrad}] [--lr LR]
+                   [--train-size TRAIN_SIZE] [--val-size VAL_SIZE]
+                   [--submission]
 
-```bash
-$ demo -h
+Train a baseline model on the StateFarmDataset.
 
-PUT THE SHELL OUTPUT HERE
+optional arguments:
+  -h, --help            show this help message and exit
+  --num-epochs NUM_EPOCHS
+                        the number of epochs to train the model
+  --batch-size BATCH_SIZE
+                        the batch size for the DataLoader
+  --optimizer {sgd,adagrad}
+                        the optimizer to use for training
+  --lr LR               the learning rate for the optimizer
+  --train-size TRAIN_SIZE
+                        the number of images per class to use for training
+  --val-size VAL_SIZE   the number of images per class to use for validation
+  --submission          Use the fitted model to compute the submission.csv
+                        file
+
 ```
-
-## Usage example
-
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
-
-
-## Release History
-
-* 0.1.0
-    * Work in progress
-
 ## Meta
 
 Ennio Nasca – [LinkedIn](https://www.linkedin.com/in/ennio-nasca)
