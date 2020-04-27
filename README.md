@@ -15,7 +15,7 @@ as a multi-label classification task using the dataset [State Farm Distracted Dr
 In order to obtain the aforementioned model we opt for an ensemble approach, building a classifier 
 on top of two weak learners, namely a CNN and a Gradient Boosting classifier that relies solely on Human Pose estimation features. 
 The HPE implementation uses [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) while the 
-Gradient Boosting classifier is based on [CatBoost](https://catboost.ai/)
+Gradient Boosting classifier is based on [CatBoost](https://catboost.ai/).
 
 The complete pipeline is available in the following jupyter notebook [notebooks/FocusOnTheRoad - Final](notebooks/FocusOnTheRoad - OpenPose.ipynb) 
 
@@ -43,6 +43,12 @@ First, to install all the required dependencies run
 ```shell script
 poetry install
 ```
+
+Download the dataset from the [Kaggle competition](https://www.kaggle.com/c/state-farm-distracted-driver-detection/data) and unzip it in the `data` folder
+
+Download the pretrained weights for the OpenPose model from [here](https://www.dropbox.com/sh/7xbup2qsn7vvjxo/AABaYNMvvNVFRWqyDXl7KQUxa/body_pose_model.pth)
+
+Follow the jupyter notebook [notebooks/FocusOnTheRoad - Final](notebooks/FocusOnTheRoad - OpenPose.ipynb) to execute the complete pipeline
 
 ## Baseline example
 
